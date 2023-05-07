@@ -22,7 +22,7 @@ let inputElem = document.querySelector('.js-inputTab');
 
     for (let i = 0; i < todoList.length; i++) {
        
-       let results  = `<p  class="py-3 text-2xl text-center font-medium text-gray-500"> ${todoList[i]} <button class=" js-delete-btn h-9 w-9 text-blue-500"> ✘ </button>  </p>` 
+       let results  = `<li class="py-3 text-2xl text-center font-medium text-gray-500"> <span onclick="" class="js-task${i}"> ${todoList[i]} </span> <button class=" js-delete-btn h-9 w-9 text-blue-500"> ✘ </button>  </li>` 
        todoOutputs+= results;
     }
 
