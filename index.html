@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title>
+    <title>Ankit's TodoList📃</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
 </head>
@@ -12,8 +12,11 @@
 
         <h1 class="text-5xl tracking-wide w-fit font-bold text-gray-500 ml-16 pt-5">Todos📝</h1><div class="flex mt-5">
         <input onkeydown="enterKeyFunction(event);" class="border-solid bg-gray-200 shadow-2xl h-11 w-2/3 m-auto mx-10 border-opacity-90 rounded-lg border border-gray-300  ring-1 ring-indigo-400 focus: outline-none px-10 , js-inputTab" placeholder="A new todo" type="text"><button onclick=" addTodos(); " class="font-semibold text-white bg-blue-400 h-11 shadow-xl -mx-6 rounded-md w-32 hover:bg-blue-500 hover: ring-transparent active:bg-gray-800" class="js-button">Create</button>
+            
         </div>
-        <hr class="max-w-xl h-0.5 mx-auto mt-12 bg-gray-200 border-0 dark:bg-gray-400">
+
+        <p class="text-center text-gray-500 mt-5 text-sm">*To get marked as complete , click the task title</p>
+        <hr class="max-w-xl h-0.5 mx-auto mt-4 bg-gray-200 border-0 dark:bg-gray-400">
         
         
         <div class="bg-white rounded-lg shadow-xl m-auto max-w-2xl h-auto"> <ul class="js-output-todo">
