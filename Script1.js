@@ -1,52 +1,94 @@
 let todoList = [];
 let completedTasks = {};
+let taskId = 0; 
 
-function enterKeyFunction(event){
-    if(event.key === 'Enter'){
+
+window.addEventListener('load', function() {
+    let savedTodoList = localStorage.getItem('todoList');
+    if (savedTodoList) {
+        todoList = JSON.parse(savedTodoList);
+        renderTodoList();
+    }
+});
+
+function enterKeyFunction(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); 
         addTodos();
     }
 }
 
-function addTodos(){
+function addTodos() {
     let inputElem = document.querySelector('.js-inputTab');
     let name = inputElem.value;
 
     if (name !== '') {
-        todoList.push(name);
+        let task = {
+            id: taskId++, 
+            name: name
+        };
+        todoList.push(task);
+        saveTodoList(); 
     }
 
-    let todoOutputs = '';
-
-    for (let i = 0; i < todoList.length; i++) {
-        let isCompleted = completedTasks[i] ? "line-through" : "";
-        let results = `<li class="py-3 text-2xl text-center font-medium text-gray-500"> <span class="js-task${i}" onclick="editTodo(${i})" style="text-decoration: ${isCompleted};"> ${todoList[i]} </span> <button class="js-delete-btn h-9 w-9 text-blue-500" onclick="deleteTodo(${i})"> ✘ </button> </li>`;
-        todoOutputs += results;
-    }
-
-    document.querySelector('.js-output-todo').innerHTML = todoOutputs;
+    renderTodoList();
 
     inputElem.value = '';
 }
 
-function editTodo(i){
-    if (completedTasks[i]) {
-        delete completedTasks[i];
-    } else {
-        completedTasks[i] = true;
+function renderTodoList() {
+    let todoOutputs = '';
+
+    for (let i = 0; i < todoList.length; i++) {
+        let task = todoList[i];
+        let isCompleted = completedTasks[task.id] ? "line-through" : "";
+        let results = `<li class="py-3 text-2xl text-center font-medium text-gray-500">
+                            <span class="js-task${task.id}" onclick="editTodo(${task.id})" style="text-decoration: ${isCompleted};">
+                                ${task.name}
+                            </span>
+                            <button class="js-delete-btn h-9 w-9 text-blue-500" onclick="deleteTodo(${task.id})">
+                                ✘
+                            </button>
+                       </li>`;
+        todoOutputs += results;
     }
-    addTodos();
+
+    document.querySelector('.js-output-todo').innerHTML = todoOutputs;
 }
 
-function deleteTodo (i) {
-    todoList.splice(i, 1);
-    addTodos();
+function editTodo(id) {
+    if (completedTasks[id]) {
+        delete completedTasks[id];
+    } else {
+        completedTasks[id] = true;
+    }
+    saveTodoList(); 
+    renderTodoList();
+}
+
+function deleteTodo(id) {
+    
+    let index = todoList.findIndex(task => task.id === id);
+    if (index !== -1) {
+        todoList.splice(index, 1);
+        saveTodoList(); 
+        renderTodoList();
+    }
 }
 
 function clearCompleted() {
-    for (let i in completedTasks) {
-        delete completedTasks[i];
+    for (let id in completedTasks) {
+        delete completedTasks[id];
     }
-    addTodos();
+    saveTodoList(); 
+    renderTodoList();
+}
+
+function saveTodoList() {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
 }
 
 document.querySelector('.js-clear-btn').addEventListener('click', clearCompleted);
+
+
+document.querySelector('.js-inputTab').addEventListener('keydown', enterKeyFunction);
